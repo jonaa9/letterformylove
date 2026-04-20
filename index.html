@@ -34,7 +34,7 @@
             width: 100%;
             max-width: 550px;
             padding: 40px;
-            padding-bottom: 140px; /* Space for the photo so text doesn't hide it */
+            padding-bottom: 160px; /* Space for photo at bottom right */
             background: var(--paper-white);
             box-shadow: 0 10px 40px rgba(0,0,0,0.08); 
             border-radius: 12px;
@@ -51,23 +51,23 @@
 
         @media (min-width: 768px) {
             #typing-text { font-size: 1.2rem; }
-            #letter-paper { padding: 60px; padding-bottom: 160px; }
+            #letter-paper { padding: 60px; padding-bottom: 180px; }
         }
 
-        /* --- PHOTO STYLING --- */
+        /* --- PHOTO STYLING (BOTTOM RIGHT) --- */
         .corner-photo {
             position: absolute;
             bottom: 25px;
-            left: 25px;
-            width: 120px; /* Adjust size as you like */
-            height: 120px;
+            right: 25px; /* Pin to bottom right */
+            width: 130px; 
+            height: 130px;
             object-fit: cover;
             border-radius: 8px;
             box-shadow: 0 4px 15px rgba(0,0,0,0.1);
             border: 4px solid white;
-            transform: rotate(-4deg); /* Slight tilt for a scrapbook feel */
-            opacity: 0; /* Starts hidden */
-            transition: opacity 2s ease-in; /* Smooth fade in */
+            transform: rotate(4deg); /* Tilt inward from the right */
+            opacity: 0; 
+            transition: opacity 2s ease-in; 
         }
 
         .photo-visible {
@@ -141,11 +141,11 @@
     <div id="letter-paper">
         <div id="typing-text"></div><span class="cursor" id="cursor"></span>
         
-        <img src="heartcinna.jpg" class="corner-photo" id="love-photo">
+        <img src="heartcinna.jpg" class="corner-photo" id="love-photo" alt="Photo of us">
     </div>
 
     <audio id="bg-music" loop preload="auto">
-        <source src="songtoput.mp3" type="audio/mpeg">
+        <source src="your-song.mp3" type="audio/mpeg">
     </audio>
 
     <script>
@@ -156,7 +156,7 @@
 
         function startLetter() {
             const music = document.getElementById('bg-music');
-            music.play();
+            music.play().catch(e => console.log("Music play blocked until interaction."));
 
             // Fade in the photo when the letter starts
             document.getElementById('love-photo').classList.add('photo-visible');
@@ -173,6 +173,7 @@
                 document.getElementById("typing-text").innerHTML += message.charAt(i);
                 i++;
                 
+                // Auto-scroll logic
                 if (i % 3 === 0) {
                     window.scrollTo({
                         top: document.body.scrollHeight,
