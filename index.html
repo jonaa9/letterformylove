@@ -40,7 +40,7 @@
             border-radius: 12px;
             position: relative;
             box-sizing: border-box;
-            z-index: 2; /* Base layer for the letter */
+            z-index: 2; 
         }
 
         #typing-text {
@@ -55,11 +55,9 @@
             #letter-paper { padding: 60px; padding-bottom: 180px; }
         }
 
-        /* --- PHOTO STYLING --- */
+        /* --- BASIC PHOTO STYLING --- */
         .corner-photo {
             position: absolute;
-            width: 130px; 
-            height: 130px;
             object-fit: cover;
             border-radius: 8px;
             box-shadow: 0 4px 15px rgba(0,0,0,0.1);
@@ -68,23 +66,38 @@
             transition: opacity 2s ease-in; 
         }
 
-        /* Original Cinnaheart - Inside the paper */
+        /* Original Cinnaheart - Remains a square */
         #love-photo {
             bottom: 25px !important;
             right: 25px !important; 
+            width: 130px; 
+            height: 130px;
             transform: rotate(4deg); 
             z-index: 5; 
         }
 
-        /* SIDE PHOTOS - Now appearing IN FRONT of the letter */
+        /* SIDE PHOTOS - Shared settings */
         .side-photo {
             position: fixed; 
-            width: 150px;
-            height: 150px;
-            z-index: 10; /* HIGHER than the paper (z-index: 2) */
-            pointer-events: none; /* Prevents images from blocking clicks/scrolls */
+            z-index: 10; 
+            pointer-events: none; 
         }
 
+        /* --- SIZING LOGIC --- */
+
+        /* Photos 1 and 3 (jpgs) remain squares */
+        #photo1, #photo3 {
+            width: 150px;
+            height: 150px;
+        }
+
+        /* Photos 2 and 4 (pngs) become RECTANGLES */
+        #photo2, #photo4 {
+            width: 200px; /* Made wider */
+            height: 150px; /* Kept same height */
+        }
+
+        /* --- POSITIONING LOGIC --- */
         #photo1 { top: 10%; left: 5%; transform: rotate(-8deg); }
         #photo2 { top: 35%; right: 5%; transform: rotate(10deg); }
         #photo3 { bottom: 10%; left: 7%; transform: rotate(-5deg); }
@@ -96,10 +109,12 @@
 
         /* Mobile adjustments */
         @media (max-width: 900px) {
-            .side-photo { width: 100px; height: 100px; }
+            #photo1, #photo3 { width: 100px; height: 100px; }
+            /* Adjusted mobile rectangular size */
+            #photo2, #photo4 { width: 130px; height: 100px; }
         }
 
-        /* ... Rest of your original styling (Cursor, Overlay, Heart) ... */
+        /* --- REST OF STYLING (Cursor, Overlay, Heart) --- */
         .cursor {
             display: inline-block;
             width: 2px;
