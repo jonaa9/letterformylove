@@ -24,7 +24,7 @@
             align-items: center;
             min-height: 100vh;
             margin: 0;
-            padding: 80px 20px; 
+            padding: 40px 20px; 
             font-family: 'Palatino', 'Georgia', serif;
             color: var(--text-color);
             box-sizing: border-box;
@@ -34,13 +34,12 @@
             width: 100%;
             max-width: 550px;
             padding: 40px;
-            padding-bottom: 160px; /* Space for heartcinna at bottom right */
+            padding-bottom: 160px; /* Space for photo at bottom right */
             background: var(--paper-white);
             box-shadow: 0 10px 40px rgba(0,0,0,0.08); 
             border-radius: 12px;
             position: relative;
             box-sizing: border-box;
-            z-index: 2;
         }
 
         #typing-text {
@@ -55,7 +54,7 @@
             #letter-paper { padding: 60px; padding-bottom: 180px; }
         }
 
-        /* --- HEARTCINNA STYLING --- */
+        /* --- PHOTO STYLING (FORCED BOTTOM RIGHT) --- */
         .corner-photo {
             position: absolute !important;
             bottom: 25px !important;
@@ -73,41 +72,8 @@
             z-index: 5;
         }
 
-        /* --- SIDE PHOTOS STYLING --- */
-        .photo {
-            position: absolute;
-            width: 110px;
-            height: 110px;
-            object-fit: cover;
-            border: 4px solid white;
-            border-radius: 4px;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
-            opacity: 0;
-            transition: opacity 1.5s ease, transform 1.5s ease;
-            z-index: 1;
-        }
-
-        .img-1 { left: -60px; top: 10%; transform: rotate(-10deg) scale(0.8); }
-        .img-2 { left: -50px; bottom: 15%; transform: rotate(8deg) scale(0.8); }
-        .img-3 { right: -60px; top: 25%; transform: rotate(12deg) scale(0.8); }
-        .img-4 { right: -50px; bottom: 5%; transform: rotate(-6deg) scale(0.8); }
-
-        .show-photo, .photo-visible {
+        .photo-visible {
             opacity: 1;
-        }
-
-        .show-photo { transform: rotate(var(--rotation)) scale(1); }
-        .img-1 { --rotation: -10deg; }
-        .img-2 { --rotation: 8deg; }
-        .img-3 { --rotation: 12deg; }
-        .img-4 { --rotation: -6deg; }
-
-        @media (max-width: 700px) {
-            .photo { width: 85px; height: 85px; }
-            .img-1 { left: -15px; }
-            .img-2 { left: -15px; }
-            .img-3 { right: -15px; }
-            .img-4 { right: -15px; }
         }
 
         .cursor {
@@ -120,32 +86,51 @@
             animation: blink 0.8s infinite;
         }
 
-        @keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: 0; } }
+        @keyframes blink {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0; }
+        }
 
         .start-overlay {
             position: fixed;
-            top: 0; left: 0; width: 100%; height: 100%;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
             background-color: var(--bg-color);
-            display: flex; flex-direction: column;
-            justify-content: center; align-items: center;
-            z-index: 10; transition: opacity 0.8s ease;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            z-index: 10;
+            transition: opacity 0.8s ease;
         }
 
         .start-btn {
             background: var(--accent-color);
-            color: white; border: none;
-            padding: 18px 45px; border-radius: 40px;
-            cursor: pointer; font-size: 1.1rem; font-weight: bold;
+            color: white;
+            border: none;
+            padding: 18px 45px;
+            border-radius: 40px;
+            cursor: pointer;
+            font-size: 1.1rem;
+            font-weight: bold;
             box-shadow: 0 4px 15px rgba(26, 95, 122, 0.2);
             -webkit-appearance: none;
         }
 
         .heart-icon {
-            color: var(--accent-color); font-size: 4rem;
-            margin-bottom: 25px; animation: pulse 1.5s infinite;
+            color: var(--accent-color);
+            font-size: 4rem;
+            margin-bottom: 25px;
+            animation: pulse 1.5s infinite;
         }
 
-        @keyframes pulse { 0% { transform: scale(1); } 50% { transform: scale(1.1); } 100% { transform: scale(1); } }
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+            100% { transform: scale(1); }
+        }
     </style>
 </head>
 <body>
@@ -158,16 +143,11 @@
     <div id="letter-paper">
         <div id="typing-text"></div><span class="cursor" id="cursor"></span>
         
-        <img src="heartcinna.jpg" class="corner-photo" id="love-photo" alt="Main Photo">
-
-        <img src="firstpic.jpg" class="photo img-1" id="p1">
-        <img src="secondpic.png" class="photo img-2" id="p2">
-        <img src="thirdpic.jpg" class="photo img-3" id="p3">
-        <img src="fourthpic.png" class="photo img-4" id="p4">
+        <img src="heartcinna.jpg" class="corner-photo" id="love-photo" alt="Photo of us">
     </div>
 
     <audio id="bg-music" loop preload="auto">
-        <source src="songtoput.mp3" type="audio/mpeg">
+        <source src="your-song.mp3" type="audio/mpeg">
     </audio>
 
     <script>
@@ -178,10 +158,13 @@
 
         function startLetter() {
             const music = document.getElementById('bg-music');
+            
+            // Set volume to 35%
             music.volume = 0.35;
-            music.play().catch(e => console.log("Audio play blocked."));
+            
+            music.play().catch(e => console.log("Music play blocked until interaction."));
 
-            // Heartcinna fades in immediately
+            // Fade in the photo when the letter starts
             document.getElementById('love-photo').classList.add('photo-visible');
 
             document.getElementById('overlay').style.opacity = '0';
@@ -196,14 +179,12 @@
                 document.getElementById("typing-text").innerHTML += message.charAt(i);
                 i++;
                 
-                // Triggers for side photos
-                if (i === 150) document.getElementById('p1').classList.add('show-photo');
-                if (i === 500) document.getElementById('p3').classList.add('show-photo');
-                if (i === 900) document.getElementById('p2').classList.add('show-photo');
-                if (i === message.length - 50) document.getElementById('p4').classList.add('show-photo');
-
+                // Auto-scroll logic
                 if (i % 3 === 0) {
-                    window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' });
+                    window.scrollTo({
+                        top: document.body.scrollHeight,
+                        behavior: 'smooth'
+                    });
                 }
                 
                 setTimeout(typeWriter, speed);
