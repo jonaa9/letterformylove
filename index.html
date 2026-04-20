@@ -55,19 +55,22 @@
         }
 
         /* --- PHOTO STYLING (BOTTOM RIGHT) --- */
+        /* --- PHOTO STYLING (FORCED BOTTOM RIGHT) --- */
         .corner-photo {
-            position: absolute;
-            bottom: 25px;
-            right: 25px; /* Pin to bottom right */
+            position: absolute !important;
+            bottom: 25px !important;
+            right: 25px !important; /* Forces it to the right */
+            left: auto !important;  /* Disables the previous 'left' setting */
             width: 130px; 
             height: 130px;
             object-fit: cover;
             border-radius: 8px;
             box-shadow: 0 4px 15px rgba(0,0,0,0.1);
             border: 4px solid white;
-            transform: rotate(4deg); /* Tilt inward from the right */
+            transform: rotate(4deg); 
             opacity: 0; 
             transition: opacity 2s ease-in; 
+            z-index: 5; /* Ensures it stays on top of the paper */
         }
 
         .photo-visible {
