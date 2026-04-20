@@ -28,20 +28,20 @@
             font-family: 'Palatino', 'Georgia', serif;
             color: var(--text-color);
             box-sizing: border-box;
-            position: relative; /* Container for side photos */
+            position: relative;
         }
 
         #letter-paper {
             width: 100%;
             max-width: 550px;
             padding: 40px;
-            padding-bottom: 160px; /* Space for cinnaheart photo at bottom right */
+            padding-bottom: 160px; 
             background: var(--paper-white);
             box-shadow: 0 10px 40px rgba(0,0,0,0.08); 
             border-radius: 12px;
             position: relative;
             box-sizing: border-box;
-            z-index: 2; /* Keeps paper above side photos slightly */
+            z-index: 2; 
         }
 
         #typing-text {
@@ -56,7 +56,6 @@
             #letter-paper { padding: 60px; padding-bottom: 180px; }
         }
 
-        /* --- BASIC PHOTO STYLING (Used by all photos) --- */
         .corner-photo {
             position: absolute;
             width: 130px; 
@@ -70,45 +69,47 @@
             z-index: 5;
         }
 
-        /* --- THE ORIGINAL CINNAHEART (FORCED BOTTOM RIGHT) --- */
         #love-photo.corner-photo {
             position: absolute !important;
             bottom: 25px !important;
             right: 25px !important; 
             left: auto !important; 
             transform: rotate(4deg); 
-            z-index: 5; /* Stays on top of paper */
+            z-index: 5;
         }
 
-        /* --- SIDE PHOTOS STYLING (New) --- */
-        /* These use fixed positioning relative to the screen,  
-           making them appear *outside* the letter paper. */
+        /* --- SIDE PHOTOS STYLING --- */
         .side-photo {
             position: fixed; 
-            width: 150px; /* slightly larger */
-            height: 150px;
-            z-index: 1; /* Below the letter paper in stack */
+            width: 160px; 
+            height: auto; /* Changed to auto to prevent cropping */
+            max-height: 250px;
+            z-index: 1;
+            object-fit: contain; /* Ensures the whole picture is visible */
         }
 
-        #photo1 { top: 15%; left: 5%; transform: rotate(-8deg); }
-        #photo2 { top: 40%; right: 5%; transform: rotate(10deg); }
-        #photo3 { bottom: 15%; left: 7%; transform: rotate(-5deg); }
-        #photo4 { bottom: 35%; right: 8%; transform: rotate(7deg); }
+        /* Specific Scaling for PNGs 2 and 4 */
+        #photo2, #photo4 {
+            width: 240px; /* Increased size */
+        }
 
-        /* Trigger class to fade in */
+        #photo1 { top: 10%; left: 4%; transform: rotate(-8deg); }
+        #photo2 { top: 30%; right: 2%; transform: rotate(10deg); }
+        #photo3 { bottom: 10%; left: 4%; transform: rotate(-5deg); }
+        #photo4 { bottom: 20%; right: 3%; transform: rotate(7deg); }
+
         .photo-visible {
             opacity: 1;
         }
 
-        /* Mobile adjustments for side photos */
         @media (max-width: 900px) {
-            .side-photo { width: 100px; height: 100px; }
-            #photo1 { left: 2%; top: 10%;}
-            #photo2 { right: 2%; top: 30%;}
-            #photo3 { left: 3%; bottom: 10%;}
-            #photo4 { right: 3%; bottom: 25%;}
+            .side-photo { width: 110px; }
+            #photo2, #photo4 { width: 150px; } /* Slightly bigger on mobile */
+            #photo1 { left: 1%; top: 5%;}
+            #photo2 { right: 1%; top: 20%;}
+            #photo3 { left: 1%; bottom: 5%;}
+            #photo4 { right: 1%; bottom: 15%;}
         }
-
 
         .cursor {
             display: inline-block;
@@ -195,7 +196,6 @@
         let i = 0;
         const speed = 25; 
 
-        // Define at which percentage of typing each photo should appear
         const photoTriggers = [
             { id: 'photo1', percent: 15 },
             { id: 'photo2', percent: 40 },
@@ -208,10 +208,8 @@
             music.volume = 0.35;
             music.play().catch(e => console.log("Music play blocked until interaction."));
 
-            // KEEP ORIGINAL: Fade in the cinnaheart photo immediately when the letter starts
             document.getElementById('love-photo').classList.add('photo-visible');
 
-            // Fade out overlay
             document.getElementById('overlay').style.opacity = '0';
             setTimeout(() => {
                 document.getElementById('overlay').style.display = 'none';
@@ -224,21 +222,17 @@
                 document.getElementById("typing-text").innerHTML += message.charAt(i);
                 i++;
                 
-                // Calculate completion percentage
                 const completionPercent = (i / message.length) * 100;
 
-                // Check triggers for new side photos
                 photoTriggers.forEach(trigger => {
                     if (completionPercent >= trigger.percent) {
                         const photoEl = document.getElementById(trigger.id);
-                        // Only add class if it's not already visible to avoid repeated work
                         if (photoEl && !photoEl.classList.contains('photo-visible')) {
                             photoEl.classList.add('photo-visible');
                         }
                     }
                 });
 
-                // Auto-scroll logic
                 if (i % 3 === 0) {
                     window.scrollTo({
                         top: document.body.scrollHeight,
