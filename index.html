@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>7 Months with You</title>
+    <style>
+        :root {
+            --bg-color: #c1e7f5; 
+            --text-color: #2c3e50;
+            --accent-color: #1a5f7a; 
+            --paper-white: #ffffff;
+        }
+
+        html {
+            scroll-behavior: smooth;
+            /* Prevents gray highlight on tap in iOS */
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            /* Ensures content doesn't hit the edges on small screens */
+            padding: 40px 20px; 
+            font-family: 'Palatino', 'Georgia', serif;
+            color: var(--text-color);
+            box-sizing: border-box;
+        }
+
+        #letter-paper {
+            width: 100%;
+            max-width: 550px;
+            padding: 40px;
+            background: var(--paper-white);
+            box-shadow: 0 10px 40px rgba(0,0,0,0.08); 
+            border-radius: 12px;
+            position: relative;
+            box-sizing: border-box;
+        }
+
+        #typing-text {
+            white-space: pre-wrap;
+            font-size: 1.1rem; /* Slightly smaller for better mobile fitting */
+            line-height: 1.8;
+            word-wrap: break-word;
+        }
+
+        /* Adjust font size for larger iPad screens */
+        @media (min-width: 768px) {
+            #typing-text { font-size: 1.2rem; }
+            #letter-paper { padding: 60px; }
+        }
+
+        .cursor {
+            display: inline-block;
+            width: 2px;
+            height: 1.2rem;
+            background-color: var(--accent-color);
+            margin-left: 3px;
+            vertical-align: middle;
+            animation: blink 0.8s infinite;
+        }
+
+        @keyframes blink {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0; }
+        }
+
+        .start-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: var(--bg-color);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            z-index: 10;
+            transition: opacity 0.8s ease;
+        }
+
+        .start-btn {
+            background: var(--accent-color);
+            color: white;
+            border: none;
+            padding: 18px 45px;
+            border-radius: 40px;
+            cursor: pointer;
+            font-size: 1.1rem;
+            font-weight: bold;
+            box-shadow: 0 4px 15px rgba(26, 95, 122, 0.2);
+            -webkit-appearance: none; /* Fixes default iOS button styling */
+        }
+
+        .heart-icon {
+            color: var(--accent-color);
+            font-size: 4rem;
+            margin-bottom: 25px;
+            animation: pulse 1.5s infinite;
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+            100% { transform: scale(1); }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="start-overlay" id="overlay">
+        <div class="heart-icon">♥</div>
+        <button class="start-btn" onclick="startLetter()">Open My Letter</button>
+    </div>
+
+    <div id="letter-paper">
+        <div id="typing-text"></div><span class="cursor" id="cursor"></span>
+    </div>
+
+    <audio id="bg-music" loop preload="auto">
+        <source src="your-song.mp3" type="audio/mpeg">
+    </audio>
+
+    <script>
+        const message = `the love of my life, another month has passed with you. i am and will forever be grateful of all the time i spend with you.\n\nthat is 7 months of being with you, being committed to you, and choosing you and only you no matter what happens. my time with you has been the BEST months of my life, it has been the happiest time of my life. i still cannot believe that after so much time, i get to be myself and be at my happiest when im with you. i say that this has been the happiest time of my life because finally, there is you who is very close and dear to me that truly loves and care for me. its one of the things i really needed, and you came back with it just at the right time.\n\ni hope you know and remember all the time that i love you so much, we may not be with each other every day and there is physical distance between us, but that does not mean that what i have with you is difficult to maintain. despite the distance and other challenges that come up in our personal lives, i have never failed and never stopped loving you. i will always love you and i will always and always look for you in every situation.\n\ni cannot wait for our future, being together daily, living with each other, having the most comfiest house, all the pets we want, and all the other things that we want. thinking about our future makes me so happy, im gonna be honest, before us, ive never thought of it like this before but being with you it has changed. the future is still scary but there is something to look forward to. being with the person i love is what i want the most.\n\nhappy 7 months to us, i love you so much, with you, let it be more\n\nwith all my heart,\nj <3`;
+
+        let i = 0;
+        const speed = 25; 
+
+        function startLetter() {
+            // Start music immediately on tap for iOS compatibility
+            const music = document.getElementById('bg-music');
+            music.play();
+
+            document.getElementById('overlay').style.opacity = '0';
+            setTimeout(() => {
+                document.getElementById('overlay').style.display = 'none';
+                typeWriter();
+            }, 800);
+        }
+
+        function typeWriter() {
+            if (i < message.length) {
+                document.getElementById("typing-text").innerHTML += message.charAt(i);
+                i++;
+                
+                // Better auto-scroll for tablets
+                if (i % 3 === 0) {
+                    window.scrollTo({
+                        top: document.body.scrollHeight,
+                        behavior: 'smooth'
+                    });
+                }
+                
+                setTimeout(typeWriter, speed);
+            } else {
+                document.getElementById('cursor').style.display = 'none';
+            }
+        }
+    </script>
+</body>
+</html>
