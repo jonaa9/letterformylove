@@ -54,13 +54,12 @@
             #letter-paper { padding: 60px; padding-bottom: 180px; }
         }
 
-        /* --- PHOTO STYLING (BOTTOM RIGHT) --- */
         /* --- PHOTO STYLING (FORCED BOTTOM RIGHT) --- */
         .corner-photo {
             position: absolute !important;
             bottom: 25px !important;
-            right: 25px !important; /* Forces it to the right */
-            left: auto !important;  /* Disables the previous 'left' setting */
+            right: 25px !important; 
+            left: auto !important;  
             width: 130px; 
             height: 130px;
             object-fit: cover;
@@ -70,7 +69,7 @@
             transform: rotate(4deg); 
             opacity: 0; 
             transition: opacity 2s ease-in; 
-            z-index: 5; /* Ensures it stays on top of the paper */
+            z-index: 5;
         }
 
         .photo-visible {
@@ -159,6 +158,10 @@
 
         function startLetter() {
             const music = document.getElementById('bg-music');
+            
+            // Set volume to 35%
+            music.volume = 0.35;
+            
             music.play().catch(e => console.log("Music play blocked until interaction."));
 
             // Fade in the photo when the letter starts
