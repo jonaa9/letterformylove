@@ -28,20 +28,19 @@
             font-family: 'Palatino', 'Georgia', serif;
             color: var(--text-color);
             box-sizing: border-box;
-            position: relative; /* Container for side photos */
         }
 
         #letter-paper {
             width: 100%;
             max-width: 550px;
             padding: 40px;
-            padding-bottom: 160px; /* Space for cinnaheart photo at bottom right */
+            padding-bottom: 160px; 
             background: var(--paper-white);
             box-shadow: 0 10px 40px rgba(0,0,0,0.08); 
             border-radius: 12px;
             position: relative;
             box-sizing: border-box;
-            z-index: 2; /* Keeps paper above side photos slightly */
+            z-index: 2; /* Base layer for the letter */
         }
 
         #typing-text {
@@ -56,7 +55,7 @@
             #letter-paper { padding: 60px; padding-bottom: 180px; }
         }
 
-        /* --- BASIC PHOTO STYLING (Used by all photos) --- */
+        /* --- PHOTO STYLING --- */
         .corner-photo {
             position: absolute;
             width: 130px; 
@@ -67,49 +66,40 @@
             border: 4px solid white;
             opacity: 0; 
             transition: opacity 2s ease-in; 
-            z-index: 5;
         }
 
-        /* --- THE ORIGINAL CINNAHEART (FORCED BOTTOM RIGHT) --- */
-        #love-photo.corner-photo {
-            position: absolute !important;
+        /* Original Cinnaheart - Inside the paper */
+        #love-photo {
             bottom: 25px !important;
             right: 25px !important; 
-            left: auto !important; 
             transform: rotate(4deg); 
-            z-index: 5; /* Stays on top of paper */
+            z-index: 5; 
         }
 
-        /* --- SIDE PHOTOS STYLING (New) --- */
-        /* These use fixed positioning relative to the screen,  
-           making them appear *outside* the letter paper. */
+        /* SIDE PHOTOS - Now appearing IN FRONT of the letter */
         .side-photo {
             position: fixed; 
-            width: 150px; /* slightly larger */
+            width: 150px;
             height: 150px;
-            z-index: 1; /* Below the letter paper in stack */
+            z-index: 10; /* HIGHER than the paper (z-index: 2) */
+            pointer-events: none; /* Prevents images from blocking clicks/scrolls */
         }
 
-        #photo1 { top: 15%; left: 5%; transform: rotate(-8deg); }
-        #photo2 { top: 40%; right: 5%; transform: rotate(10deg); }
-        #photo3 { bottom: 15%; left: 7%; transform: rotate(-5deg); }
-        #photo4 { bottom: 35%; right: 8%; transform: rotate(7deg); }
+        #photo1 { top: 10%; left: 5%; transform: rotate(-8deg); }
+        #photo2 { top: 35%; right: 5%; transform: rotate(10deg); }
+        #photo3 { bottom: 10%; left: 7%; transform: rotate(-5deg); }
+        #photo4 { bottom: 30%; right: 8%; transform: rotate(7deg); }
 
-        /* Trigger class to fade in */
         .photo-visible {
             opacity: 1;
         }
 
-        /* Mobile adjustments for side photos */
+        /* Mobile adjustments */
         @media (max-width: 900px) {
             .side-photo { width: 100px; height: 100px; }
-            #photo1 { left: 2%; top: 10%;}
-            #photo2 { right: 2%; top: 30%;}
-            #photo3 { left: 3%; bottom: 10%;}
-            #photo4 { right: 3%; bottom: 25%;}
         }
 
-
+        /* ... Rest of your original styling (Cursor, Overlay, Heart) ... */
         .cursor {
             display: inline-block;
             width: 2px;
@@ -136,7 +126,7 @@
             flex-direction: column;
             justify-content: center;
             align-items: center;
-            z-index: 10;
+            z-index: 100;
             transition: opacity 0.8s ease;
         }
 
@@ -150,7 +140,6 @@
             font-size: 1.1rem;
             font-weight: bold;
             box-shadow: 0 4px 15px rgba(26, 95, 122, 0.2);
-            -webkit-appearance: none;
         }
 
         .heart-icon {
@@ -181,7 +170,6 @@
 
     <div id="letter-paper">
         <div id="typing-text"></div><span class="cursor" id="cursor"></span>
-        
         <img src="heartcinna.jpg" class="corner-photo" id="love-photo" alt="Photo of us">
     </div>
 
@@ -190,12 +178,11 @@
     </audio>
 
     <script>
-        const message = `the love of my life, another month has passed with you. i am and will forever be grateful of all the time i spend with you.\n\nthat is 7 months of being with you, being committed to you, and choosing you and only you no matter what happens. my time with you has been the BEST months of my life, it has been the happiest time of my life. i still cannot believe that after so much time, i get to be myself and be at my happiest when im with you. i say that this has been the happiest time of my life because finally, there is you who is very close and dear to me that truly loves and care for me. its one of the things i really needed, and you came back with it just at the right time.\n\ni hope you know and remember all the time that i love you so much, we may not be with each other every day and there is physical distance between us, but that does not mean that what i have with you is difficult to maintain. despite the distance and other challenges that come up in our personal lives, i have never failed and never stopped loving you. i will always love you and i will always and always look for you in every situation.\n\ni cannot wait for our future, being together daily, living with each other, having the most comfiest house, all the pets we want, and all the other things that we want. thinking about our future makes me so happy, im gonna be honest, before us, ive never thought of it like this before but being with you it has changed. the future is still scary but there is something to look forward to. being with the person i love is what i want the most.\n\nhappy 7 months to us, i love you so much, with you, let let be more\n\nwith all my heart,\nj <3`;
+        const message = `the love of my life, another month has passed with you. i am and will forever be grateful of all the time i spend with you.\n\nthat is 7 months of being with you, being committed to you, and choosing you and only you no matter what happens. my time with you has been the BEST months of my life, it has been the happiest time of my life. i still cannot believe that after so much time, i get to be myself and be at my happiest when im with you. i say that this has been the happiest time of my life because finally, there is you who is very close and dear to me that truly loves and care for me. its one of the things i really needed, and you came back with it just at the right time.\n\ni hope you know and remember all the time that i love you so much, we may not be with each other every day and there is physical distance between us, but that does not mean that what i have with you is difficult to maintain. despite the distance and other challenges that come up in our personal lives, i have never failed and never stopped loving you. i will always love you and i will always and always look for you in every situation.\n\ni cannot wait for our future, being together daily, living with each other, having the most comfiest house, all the pets we want, and all the other things that we want. thinking about our future makes me so happy, im gonna be honest, before us, ive never thought of it like this before but being with you it has changed. the future is still scary but there is something to look forward to. being with the person i love is what i want the most.\n\nhappy 7 months to us, i love you so much, with you, let it be more\n\nwith all my heart,\nj <3`;
 
         let i = 0;
         const speed = 25; 
 
-        // Define at which percentage of typing each photo should appear
         const photoTriggers = [
             { id: 'photo1', percent: 15 },
             { id: 'photo2', percent: 40 },
@@ -206,12 +193,10 @@
         function startLetter() {
             const music = document.getElementById('bg-music');
             music.volume = 0.35;
-            music.play().catch(e => console.log("Music play blocked until interaction."));
+            music.play().catch(e => console.log("Music blocked."));
 
-            // KEEP ORIGINAL: Fade in the cinnaheart photo immediately when the letter starts
             document.getElementById('love-photo').classList.add('photo-visible');
 
-            // Fade out overlay
             document.getElementById('overlay').style.opacity = '0';
             setTimeout(() => {
                 document.getElementById('overlay').style.display = 'none';
@@ -224,21 +209,15 @@
                 document.getElementById("typing-text").innerHTML += message.charAt(i);
                 i++;
                 
-                // Calculate completion percentage
                 const completionPercent = (i / message.length) * 100;
 
-                // Check triggers for new side photos
                 photoTriggers.forEach(trigger => {
                     if (completionPercent >= trigger.percent) {
                         const photoEl = document.getElementById(trigger.id);
-                        // Only add class if it's not already visible to avoid repeated work
-                        if (photoEl && !photoEl.classList.contains('photo-visible')) {
-                            photoEl.classList.add('photo-visible');
-                        }
+                        if (photoEl) photoEl.classList.add('photo-visible');
                     }
                 });
 
-                // Auto-scroll logic
                 if (i % 3 === 0) {
                     window.scrollTo({
                         top: document.body.scrollHeight,
